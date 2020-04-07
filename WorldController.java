@@ -14,6 +14,9 @@ public class WorldController extends GraphicsProgram {
 	public void run(){	
 		setUpWorld();
 		runWorld();
+		
+		System.out.print(theWorld.getCreatureList().get(0));
+	
 	}
 	
 	public void init(){
@@ -22,17 +25,26 @@ public class WorldController extends GraphicsProgram {
 	
 	public void setUpWorld(){
 		theWorld = new World(20,20);
-		theWorld.getCreatureList().add( new Grass( new Location(3,6), theWorld ));
-		theWorld.getCreatureList().add( new Grass( new Location(4,6), theWorld ));
+		
+		theWorld.getCreatureList().add(new Cow(1, new Location(3,3), Color.BLACK, theWorld, 2));
+		theWorld.getCreatureList().add(new Cow(1, new Location(4,3), Color.BLACK, theWorld, 2));
+		
+		theWorld.getCreatureList().add( new Grass( new Location(5,4), theWorld, 0 ));
+		theWorld.getCreatureList().add( new Grass( new Location(4,4), theWorld, 0 ));
+		
+		theWorld.getCreatureList().add(new Llama(1, new Location(5,5), Color.ORANGE, theWorld, 1));
+		theWorld.getCreatureList().add(new Llama(1, new Location(6,5), Color.ORANGE, theWorld, 1));
+		
 		theWorldCanvas = this.getGCanvas();
 	}
 	
 	public void runWorld(){
 		drawWorld();
-		for(int i=0; i<3;i++){
+		for(int i=0; i<4;i++){
 			theWorld.letTimePass();
 			pause(500);
 			drawWorld();
+			//System.out.print("REDRAWING");
 		}
 	}	
 	

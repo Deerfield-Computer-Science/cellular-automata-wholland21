@@ -9,22 +9,25 @@ public abstract class LifeForm {
 	protected Color myColor;
 	protected int myAge;
 	protected boolean alive;
+	protected int level; 
 	
 	// lifeform constructors
-	public LifeForm(int myLifeSpan, Location myLocation, Color myColor, World myWorld) {
+	public LifeForm(int myLifeSpan, Location myLocation, Color myColor, World myWorld, int level) {
 		super();
 		this.myLifeSpan = myLifeSpan;
 		this.myLocation = myLocation;
 		this.myColor = myColor;
 		this.myWorld = myWorld;
 		alive = true;
+		this.level=level;
 	}
 	
-	public LifeForm(Location myLocation, World myWorld) {
+	public LifeForm(Location myLocation, World myWorld, int level) {
 		super();
 		this.myWorld = myWorld;
 		this.myLocation = myLocation;
 		alive = true;
+		this.level=level;
 	}
 	
 	/* all the basic lifeform functions
@@ -78,6 +81,11 @@ public abstract class LifeForm {
 	public void setAge(int age) {
 		this.myAge = age;
 	}
+	
+	public int getLevel() {
+		return level;
+	}
+	
 	
 	@Override
 	public String toString() {
