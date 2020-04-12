@@ -9,10 +9,13 @@ public class Grass extends Plant {
 	
 	public void reproduce() {
 		// this is silly code really, but as an example
-		int newX = (int)(Math.random()*20);
-		int newY = (int)(Math.random()*20); 
+		int newX = (int)(Math.random()*200);
+		int newY = (int)(Math.random()*200); 
 		
 		myWorld.getCreatureList().add(new Grass(new Location(newX,newY), myWorld, 0));
+	}
+	public void move(int i) {
+		
 	}
 
 }

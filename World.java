@@ -18,7 +18,7 @@ public class World {
 	
 	public void letTimePass(){
 		
-		makeNewCreatures();
+//		makeNewCreatures();
 		checkAround();
 		moveCreatures();
 		
@@ -27,7 +27,7 @@ public class World {
 		purgeTheDead();		
 	}
 	
-	public void makeNewCreatures() {
+/*	public void makeNewCreatures() {
 		
 		int currentSizeOfCreatureList = creatureList.size();
 		System.out.println("size of list is "+currentSizeOfCreatureList);
@@ -35,69 +35,55 @@ public class World {
 			creatureList.get(i).reproduce();
 		}
 	}
-	
+*/	
 	public void moveCreatures() {
 		for(int i=0; i< creatureList.size(); i++) {
-			creatureList.get(i).getMyColor();
-			if(creatureList.get(i).getMyColor()==Color.BLACK) {
-				int ex= creatureList.get(i).getMyLocation().getX();
-				ex += rgen.nextInt(-1, 1);
-				creatureList.get(i).getMyLocation().setX(ex);
-				
-				int why= creatureList.get(i).getMyLocation().getY();
-				why += rgen.nextInt(-1, 1);
-				creatureList.get(i).getMyLocation().setY(why);
-			}
-			if(creatureList.get(i).getMyColor()==Color.ORANGE) {
-				int ex= creatureList.get(i).getMyLocation().getX();
-				ex += rgen.nextInt(-1, 1);
-				creatureList.get(i).getMyLocation().setX(ex);
-				
-				int why= creatureList.get(i).getMyLocation().getY();
-				why += rgen.nextInt(-1, 1);
-				creatureList.get(i).getMyLocation().setY(why);
+			Color color=creatureList.get(i).getMyColor();
+			if(color==Color.BLACK || color ==Color.ORANGE) {
+				creatureList.get(i).move(i);
 			}
 		}
 	}
+	
 	//This tries to have characters eat. It says it works but there is an error 
 	//and I cannot figure out where.
 	public void checkAround() {
 		for(int index=0; index<creatureList.size(); index++) {
-			int ex=creatureList.get(index).getMyLocation().getX();			
-			int why=creatureList.get(index).getMyLocation().getY();
+			int x=creatureList.get(index).getMyLocation().getX();			
+			int y=creatureList.get(index).getMyLocation().getY();
 			int level=creatureList.get(index).getLevel();
 			
 			for (int plus=index+1; plus<creatureList.size()-1;plus++) {	
-				if( (creatureList.get(plus).getMyLocation().getX())+1==ex 
-						&& (creatureList.get(plus).getMyLocation().getY())+1==why) {
+				if( (creatureList.get(plus).getMyLocation().getX())+1==x 
+						&& (creatureList.get(plus).getMyLocation().getY())+1==y) {
 					eatThings(level, plus);
 				}
-				if( (creatureList.get(plus).getMyLocation().getX())+1==ex 
-						&& (creatureList.get(plus).getMyLocation().getY())-1==why) {
+				if( (creatureList.get(plus).getMyLocation().getX())+1==x 
+						&& (creatureList.get(plus).getMyLocation().getY())-1==y) {
 					eatThings(level, plus);
 				}
-				if( (creatureList.get(plus).getMyLocation().getX())+1==ex 
-						&& (creatureList.get(plus).getMyLocation().getY())==why) {
+				if( (creatureList.get(plus).getMyLocation().getX())+1==x 
+						&& (creatureList.get(plus).getMyLocation().getY())==y) {
 					eatThings(level, plus);
 				}
-				if( (creatureList.get(plus).getMyLocation().getX())-1==ex 
-						&& (creatureList.get(plus).getMyLocation().getY())+1==why) {
+				if( (creatureList.get(plus).getMyLocation().getX())-1==x 
+						&& (creatureList.get(plus).getMyLocation().getY())+1==y) {
 					eatThings(level, plus);
 				}
-				if( (creatureList.get(plus).getMyLocation().getX())-1==ex 
-						&& (creatureList.get(plus).getMyLocation().getY())-1==why) {
+				if( (creatureList.get(plus).getMyLocation().getX())-1==x 
+						&& (creatureList.get(plus).getMyLocation().getY())-1==y) {
 					eatThings(level, plus);
 				}
-				if( (creatureList.get(plus).getMyLocation().getX())-1==ex 
-						&& (creatureList.get(plus).getMyLocation().getY())==why) {
+				if( (creatureList.get(plus).getMyLocation().getX())-1==x 
+						&& (creatureList.get(plus).getMyLocation().getY())==y) {
 					eatThings(level, plus);
 				}
-				if( (creatureList.get(plus).getMyLocation().getX())==ex 
-						&& (creatureList.get(plus).getMyLocation().getY())-1==why) {
+				if( (creatureList.get(plus).getMyLocation().getX())==x 
+						&& (creatureList.get(plus).getMyLocation().getY())-1==y) {
 					eatThings(level, plus);
 				}
-				if( (creatureList.get(plus).getMyLocation().getX())==ex 
-						&& (creatureList.get(plus).getMyLocation().getY())+1==why) {
+				if( (creatureList.get(plus).getMyLocation().getX())==x 
+						&& (creatureList.get(plus).getMyLocation().getY())+1==y) {
 					eatThings(level, plus);
 				}
 				
@@ -111,7 +97,8 @@ public class World {
 	//	System.out.print("trying to eat	");
 		if(creatureList.get(plus).getLevel()<level) {
 	//		System.out.print("ate");
-			creatureList.get(plus).isDead();
+			int lifeSpan=creatureList.get(plus).getMyLifeSpan();
+			creatureList.get(plus).setAge(lifeSpan);
 		}
 		purgeTheDead();
 	}
