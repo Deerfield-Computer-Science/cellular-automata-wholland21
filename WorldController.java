@@ -1,12 +1,11 @@
 import java.awt.Color;
-
 import acm.graphics.*;
 import acm.program.*;
 import acm.util.*;
 
 public class WorldController extends GraphicsProgram {
 	
-	private World theWorld;
+	protected static World theWorld;
 	private GCanvas theWorldCanvas;
 	public static final int APPLICATION_WIDTH = 1000;
 	public static final int APPLICATION_HEIGHT = 1000;
@@ -28,6 +27,11 @@ public class WorldController extends GraphicsProgram {
 		
 		theWorld.getCreatureList().add(new healthy(52,new Location(10,10), Color.GREEN, theWorld, 0));
 		theWorld.getCreatureList().add(new healthy(52,new Location(10,11), Color.GREEN, theWorld, 0));
+		theWorld.getCreatureList().add(new healthy(52,new Location(11,12), Color.GREEN, theWorld, 0));
+		theWorld.getCreatureList().add(new healthy(52,new Location(11,13), Color.GREEN, theWorld, 0));
+		theWorld.getCreatureList().add(new healthy(52,new Location(12,14), Color.GREEN, theWorld, 0));
+		theWorld.getCreatureList().add(new healthy(52,new Location(12,15), Color.GREEN, theWorld, 0));
+		theWorld.getCreatureList().add(new aysmptomatic(52,new Location(11,15), Color.BLUE, theWorld, 1));
 
 		
 		theWorldCanvas = this.getGCanvas();

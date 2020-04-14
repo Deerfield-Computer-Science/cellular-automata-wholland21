@@ -5,17 +5,11 @@ import acm.util.RandomGenerator;
 public class healthy extends Humans {
 	
 	public healthy(int life, Location l, Color Green, World w, int level) {	
-		super(2, l, Green, w, level);
+		super(52, l, Green, w, level);
 		myColor= Color.green;	
 		
 	}
-/*	public void reproduce() {
-		// this is silly code really, but as an example
-		int newX = (int)(Math.random()*200);
-		int newY = (int)(Math.random()*200); 	
-	//	myWorld.getCreatureList().add(new Cow(1,new Location(newX,newY), myColor, myWorld, 2));
-	}
-	*/
+
 	public void move(int i) { 
 		boolean move=true;	
 		

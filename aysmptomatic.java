@@ -4,26 +4,17 @@ import acm.util.RandomGenerator;
 public class aysmptomatic extends Humans {
 	
 	public aysmptomatic(int life, Location l, Color Green, World w, int level) {	
-		super(2, l, Green, w, level);
-		myColor= Color.green;	
+		super(52, l, Green, w, level);
+		myColor= Color.blue;	
 		
 	}
-/*	public void reproduce() {
-		// this is silly code really, but as an example
-		int newX = (int)(Math.random()*200);
-		int newY = (int)(Math.random()*200); 	
-	//	myWorld.getCreatureList().add(new Cow(1,new Location(newX,newY), myColor, myWorld, 2));
-	}
-	*/
+
 	public void move(int i) { 
-		boolean move=true;	
-		
+		boolean move=true;		
 		int x= myWorld.getCreatureList().get(i).getMyLocation().getX();
-		x += rgen.nextInt(-1, 1);
-		
+		x += rgen.nextInt(-1, 1);	
 		int y= myWorld.getCreatureList().get(i).getMyLocation().getY();
-		y += rgen.nextInt(-1, 1);
-		
+		y += rgen.nextInt(-1, 1);	
 		for (int plus=0; plus<myWorld.getCreatureList().size();plus++) {	
 			if( (myWorld.getCreatureList().get(plus).getMyLocation().getX())==x 
 				&& (myWorld.getCreatureList().get(plus).getMyLocation().getY())==y) {					x += rgen.nextInt(-1, 1);

@@ -4,105 +4,123 @@ import java.util.ArrayList;
 import acm.util.RandomGenerator;
 
 public class World {
-	
+
 	private int width;
 	private int height;
 	private ArrayList<LifeForm> creatureList;
-	
+
 	public World(int width, int height) {
 		super();
 		this.width = width;
 		this.height = height;
 		this.creatureList = new ArrayList<LifeForm>();
 	}
-	
+
 	public void letTimePass(){
-		
-//		makeNewCreatures();
-		checkAround();
+
+		checkAround2();
 		moveCreatures();
-		
-		//eatThings();
 		creaturesGetOlder();
 		purgeTheDead();		
 	}
-	
-/*	public void makeNewCreatures() {
-		
-		int currentSizeOfCreatureList = creatureList.size();
-		System.out.println("size of list is "+currentSizeOfCreatureList);
-		for(int i=0; i< currentSizeOfCreatureList; i++) {
-			creatureList.get(i).reproduce();
-		}
-	}
-*/	
+
+
 	public void moveCreatures() {
 		for(int i=0; i< creatureList.size(); i++) {
-			Color color=creatureList.get(i).getMyColor();
-			if(color==Color.BLACK || color ==Color.ORANGE) {
-				creatureList.get(i).move(i);
-			}
+			creatureList.get(i).move(i);
 		}
 	}
-	
-	//This tries to have characters eat. It says it works but there is an error 
-	//and I cannot figure out where.
+
+
 	public void checkAround() {
 		for(int index=0; index<creatureList.size(); index++) {
 			int x=creatureList.get(index).getMyLocation().getX();			
 			int y=creatureList.get(index).getMyLocation().getY();
 			int level=creatureList.get(index).getLevel();
-			
+
 			for (int plus=index+1; plus<creatureList.size()-1;plus++) {	
+
 				if( (creatureList.get(plus).getMyLocation().getX())+1==x 
-						&& (creatureList.get(plus).getMyLocation().getY())+1==y) {
-					eatThings(level, plus);
-				}
-				if( (creatureList.get(plus).getMyLocation().getX())+1==x 
-						&& (creatureList.get(plus).getMyLocation().getY())-1==y) {
-					eatThings(level, plus);
+						&& (creatureList.get(plus).getMyLocation().getY())+1==y ) {
+					spreadDisease(level, plus);
 				}
 				if( (creatureList.get(plus).getMyLocation().getX())+1==x 
-						&& (creatureList.get(plus).getMyLocation().getY())==y) {
-					eatThings(level, plus);
+						&& (creatureList.get(plus).getMyLocation().getY())-1==y ) {
+					spreadDisease(level, plus);
+				}
+				if( (creatureList.get(plus).getMyLocation().getX())+1==x 
+						&& (creatureList.get(plus).getMyLocation().getY())==y ) {
+					spreadDisease(level, plus);
 				}
 				if( (creatureList.get(plus).getMyLocation().getX())-1==x 
-						&& (creatureList.get(plus).getMyLocation().getY())+1==y) {
-					eatThings(level, plus);
+						&& (creatureList.get(plus).getMyLocation().getY())+1==y ) {
+					spreadDisease(level, plus);
 				}
 				if( (creatureList.get(plus).getMyLocation().getX())-1==x 
-						&& (creatureList.get(plus).getMyLocation().getY())-1==y) {
-					eatThings(level, plus);
+						&& (creatureList.get(plus).getMyLocation().getY())-1==y ) {
+					spreadDisease(level, plus);
 				}
 				if( (creatureList.get(plus).getMyLocation().getX())-1==x 
-						&& (creatureList.get(plus).getMyLocation().getY())==y) {
-					eatThings(level, plus);
+						&& (creatureList.get(plus).getMyLocation().getY())==y ) {
+					spreadDisease(level, plus);
 				}
 				if( (creatureList.get(plus).getMyLocation().getX())==x 
-						&& (creatureList.get(plus).getMyLocation().getY())-1==y) {
-					eatThings(level, plus);
+						&& (creatureList.get(plus).getMyLocation().getY())-1==y ) {
+					spreadDisease(level, plus);
 				}
 				if( (creatureList.get(plus).getMyLocation().getX())==x 
-						&& (creatureList.get(plus).getMyLocation().getY())+1==y) {
-					eatThings(level, plus);
+						&& (creatureList.get(plus).getMyLocation().getY())+1==y ) {
+					spreadDisease(level, plus);
 				}
-				
+
 			}
-			
+
 		}
 	}
 
-	
-	public void eatThings(int level,  int plus) {
-	//	System.out.print("trying to eat	");
+	public void checkAround2() {
+		boolean x2 = false;
+		boolean y2 = false;
+		for(int index=0; index<creatureList.size(); index++) {
+			int x=creatureList.get(index).getMyLocation().getX();             
+			int y=creatureList.get(index).getMyLocation().getY();
+			int level=creatureList.get(index).getLevel();
+			for (int plus=index+1; plus<creatureList.size();plus++) {
+				if(creatureList.get(plus).getMyLocation().getX()==x && creatureList.get(plus).getMyLocation().getY()==y) {
+
+				} else {
+					for (int xVal = -1 ; xVal <= 1 ;xVal++) {     
+						for(int yVal = -1 ; yVal <= 1; yVal++) {
+							if(creatureList.get(plus).getMyLocation().getX()==x+xVal) {
+								x2=true;
+							}
+							if(creatureList.get(plus).getMyLocation().getY()==y+yVal) {
+								y2=true;
+							}
+							if (x2 == true && y2 == true) {
+								spreadDisease(level, plus);
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+
+	public void spreadDisease(int level,  int plus) {
 		if(creatureList.get(plus).getLevel()<level) {
-	//		System.out.print("ate");
-			int lifeSpan=creatureList.get(plus).getMyLifeSpan();
-			creatureList.get(plus).setAge(lifeSpan);
+			int x=creatureList.get(plus).getMyLocation().getX();
+			int y=creatureList.get(plus).getMyLocation().getY();
+			int lifeSpan= creatureList.get(plus).getMyLifeSpan();
+			creatureList.add(new aysmptomatic(lifeSpan,new Location(x,y), Color.BLUE, WorldController.theWorld, level));
+			
+			
+			int lifeSpan2=creatureList.get(plus).getMyLifeSpan();
+			creatureList.get(plus).setAge(lifeSpan2);
 		}
 		purgeTheDead();
 	}
-	
+
 	public void purgeTheDead(){
 		int i=0;
 		while(i<creatureList.size()){
@@ -112,13 +130,13 @@ public class World {
 				i++;
 		}	
 	}
-	
+
 	public void creaturesGetOlder(){
 		for(LifeForm l:creatureList){
 			l.age(1);
 		}
 	}
-	
+
 	public int getWidth() {
 		return width;
 	}
@@ -143,6 +161,6 @@ public class World {
 		return "World [width=" + width + ", height=" + height
 				+ ", creatureList=" + creatureList + "]";
 	}
-	
+
 	private RandomGenerator rgen = RandomGenerator.getInstance();
 }
