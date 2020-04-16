@@ -1,11 +1,11 @@
 import java.awt.Color;
 import acm.util.RandomGenerator;
-//level 1
-public class aysmptomatic extends Humans {
+//level 2
+public class recovered extends Humans {
 
-	public aysmptomatic(int life, Location l, Color Green, World w, int level) {	
-		super(52, l, Green, w, level);
-		myColor= Color.BLUE;	
+	public recovered(int life, Location l, Color Black, World w, int level) {	
+		super(52, l, Black, w, level);
+		myColor= Color.BLACK;	
 
 	}
 
@@ -29,6 +29,7 @@ public class aysmptomatic extends Humans {
 					break;
 				}
 			}
+
 		}
 		if (move==true) {
 			myWorld.getCreatureList().get(i).getMyLocation().setX(x);
@@ -39,4 +40,3 @@ public class aysmptomatic extends Humans {
 	private RandomGenerator rgen = RandomGenerator.getInstance();
 
 }
-
