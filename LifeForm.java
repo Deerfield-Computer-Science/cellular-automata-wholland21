@@ -38,7 +38,7 @@ public abstract class LifeForm {
 	// we all age the same, time clicks forward and we all age one unit of time
 	public void age(int time){
 		myAge+=time;
-		if (myAge>myLifeSpan)
+		if (myAge>=myLifeSpan)
 			alive=false;
 	}
 	

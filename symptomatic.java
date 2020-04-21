@@ -23,7 +23,7 @@ public class symptomatic extends Humans {
 					break;
 				}			
 			}
-			if ((x > 99)|| (y > 99))  {
+			if ((x > 98)|| (y > 74))  {
 				move= false;
 				if (move==false) {
 					break;

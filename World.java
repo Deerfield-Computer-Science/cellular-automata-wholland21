@@ -8,7 +8,7 @@ public class World {
 	private int width;
 	private int height;
 	private ArrayList<LifeForm> creatureList;
-	private int z;
+	public int dead;
 
 	public World(int width, int height) {
 		super();
@@ -17,11 +17,13 @@ public class World {
 		this.creatureList = new ArrayList<LifeForm>();
 	}
 
-	public void letTimePass(){
-
+	public void letTimePass(int i){
+		
+		purgeTheDead();
 		checkAround3();
-		moveCreatures();
+	//	moveCreatures();
 		creaturesGetOlder();
+		//killOrRecover(i);
 		purgeTheDead();		
 	}
 
@@ -32,35 +34,41 @@ public class World {
 		}
 	}
 
-
-	public void checkAround2() {
-		boolean x2 = false;
-		boolean y2 = false;
-		for(int index=0; index<creatureList.size(); index++) {
-			int x=creatureList.get(index).getMyLocation().getX();             
-			int y=creatureList.get(index).getMyLocation().getY();
-			int levelOfOGCreature=creatureList.get(index).getLevel();
-			for (int nextCreature=index+1; nextCreature<creatureList.size();nextCreature++) {
-				if(creatureList.get(nextCreature).getMyLocation().getX()==x 
-						&& creatureList.get(nextCreature).getMyLocation().getY()==y) {
-				} else {
-					for (int xVal = -1 ; xVal <= 1 ;xVal++) {     
-						for(int yVal = -1 ; yVal <= 1; yVal++) {
-							if(creatureList.get(nextCreature).getMyLocation().getX()==x+xVal) {
-								x2=true;
-							}
-							if(creatureList.get(nextCreature).getMyLocation().getY()==y+yVal) {
-								y2=true;
-							}
-							if (x2 == true && y2 == true) {
-								spreadDisease(levelOfOGCreature, nextCreature, index);
-							}
-						}
+	public void killOrRecover(int i) {	
+		if (i%4==0 && i!=0) {
+			for(int index=0; index< creatureList.size(); index++) {
+				
+				int number= rgen.nextInt(0,99);
+				int x=creatureList.get(index).getMyLocation().getX();
+				int y=creatureList.get(index).getMyLocation().getY();
+				int lifeSpan= creatureList.get(index).getMyLifeSpan();
+				
+				if (creatureList.get(index).getMyColor()==Color.RED) {
+					if (number<30) {
+						creatureList.get(index).setAge(lifeSpan);
+						dead++;
+						purgeTheDead();
+					} else {
+						creatureList.get(index).setAge(lifeSpan);
+						purgeTheDead();
+						creatureList.add(new recovered(lifeSpan,new Location(x,y), Color.BLACK, this, 2));
 					}
 				}
+				if (creatureList.get(index).getMyColor()==Color.BLUE) {
+					if (number<90) {
+						creatureList.get(index).setAge(lifeSpan);
+						purgeTheDead();
+						creatureList.add(new symptomatic(lifeSpan,new Location(x,y), Color.RED, this, 1));
+					} else {
+						creatureList.get(index).setAge(lifeSpan);
+						purgeTheDead();
+						creatureList.add(new recovered(lifeSpan,new Location(x,y), Color.BLACK, this, 2));
+					}
+				}	
 			}
 		}
 	}
+	
 	
 	public void checkAround3() {
 		int size = creatureList.size();
@@ -79,6 +87,7 @@ public class World {
 										creatureList.get(nextCreature).getMyLocation().getY()==y+yVal) 
 								{
 									spreadDisease(levelOfOGCreature, nextCreature, index);
+									break;
 								}
 							}
 						}
@@ -89,24 +98,21 @@ public class World {
 	}
 
 	public void spreadDisease(int levelOfOGCreature,  int nextCreature, int index) {
-//		System.out.println("in Spread Disease");
-//		System.out.println(creatureList.get(nextCreature).getClass());
-//		System.out.println(creatureList.get(index).getClass());
-		if(creatureList.get(nextCreature).getLevel()<levelOfOGCreature && creatureList.get(nextCreature).getLevel()==0) {
+		if(creatureList.get(nextCreature).getLevel()<levelOfOGCreature && creatureList.get(index).getLevel()==1) {
 			int x=creatureList.get(nextCreature).getMyLocation().getX();
 			int y=creatureList.get(nextCreature).getMyLocation().getY();
 			int lifeSpan= creatureList.get(nextCreature).getMyLifeSpan();
-			int add= rgen.nextInt(0,100);
-			if(add<11) {
-				creatureList.add(new symptomatic(lifeSpan,new Location(x,y), Color.RED, this, levelOfOGCreature));
-	//			System.out.println("added another symp");
+			int add= rgen.nextInt(0,99);
+			if(add<20) {
+				creatureList.set(index, new symptomatic(lifeSpan,new Location(x,y), Color.RED, this, levelOfOGCreature));
+				int lifeSpan2=creatureList.get(nextCreature).getMyLifeSpan();
+				creatureList.get(nextCreature).setAge(lifeSpan2);
 			} else if (add<70) {
-				creatureList.add(new aysmptomatic(lifeSpan,new Location(x,y), Color.BLUE, this, levelOfOGCreature));
-	//			System.out.println("added another asymp");
+				creatureList.set(index, new aysmptomatic(lifeSpan,new Location(x,y), Color.BLUE, this, levelOfOGCreature));
+				int lifeSpan2=creatureList.get(nextCreature).getMyLifeSpan();
+				creatureList.get(nextCreature).setAge(lifeSpan2);
 			} 
 
-			int lifeSpan2=creatureList.get(nextCreature).getMyLifeSpan();
-			creatureList.get(nextCreature).setAge(lifeSpan2);
 		}
 		purgeTheDead();
 	}
