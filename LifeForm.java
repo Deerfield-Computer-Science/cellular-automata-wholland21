@@ -47,6 +47,7 @@ public abstract class LifeForm {
 	public abstract void move(int i);
 	
 	public boolean isDead(){
+	//	System.out.println("in isDead");
 		return !alive;
 	}
 	

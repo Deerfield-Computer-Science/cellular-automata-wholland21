@@ -19,11 +19,11 @@ public class World {
 
 	public void letTimePass(int i){
 		
-		purgeTheDead();
+	
 		checkAround3();
-	//	moveCreatures();
+		moveCreatures();
 		creaturesGetOlder();
-		//killOrRecover(i);
+		killOrRecover(i);
 		purgeTheDead();		
 	}
 
@@ -37,31 +37,28 @@ public class World {
 	public void killOrRecover(int i) {	
 		if (i%4==0 && i!=0) {
 			for(int index=0; index< creatureList.size(); index++) {
-				
+				LifeForm creature=creatureList.get(index);
 				int number= rgen.nextInt(0,99);
-				int x=creatureList.get(index).getMyLocation().getX();
-				int y=creatureList.get(index).getMyLocation().getY();
-				int lifeSpan= creatureList.get(index).getMyLifeSpan();
+				int x=creature.getMyLocation().getX();
+				int y=creature.getMyLocation().getY();
+				int lifeSpan= creature.getMyLifeSpan();
 				
-				if (creatureList.get(index).getMyColor()==Color.RED) {
+				if (creature.getMyColor()==Color.RED) {
 					if (number<30) {
-						creatureList.get(index).setAge(lifeSpan);
+						creature.alive = false;
 						dead++;
-						purgeTheDead();
+						
 					} else {
-						creatureList.get(index).setAge(lifeSpan);
-						purgeTheDead();
+						creature.alive = false;
 						creatureList.add(new recovered(lifeSpan,new Location(x,y), Color.BLACK, this, 2));
 					}
 				}
-				if (creatureList.get(index).getMyColor()==Color.BLUE) {
+				if (creature.getMyColor()==Color.BLUE) {
 					if (number<90) {
-						creatureList.get(index).setAge(lifeSpan);
-						purgeTheDead();
+						creature.alive = false;					
 						creatureList.add(new symptomatic(lifeSpan,new Location(x,y), Color.RED, this, 1));
 					} else {
-						creatureList.get(index).setAge(lifeSpan);
-						purgeTheDead();
+						creature.alive = false;						
 						creatureList.add(new recovered(lifeSpan,new Location(x,y), Color.BLACK, this, 2));
 					}
 				}	
@@ -77,17 +74,19 @@ public class World {
 				int x=creatureList.get(index).getMyLocation().getX();             
 				int y=creatureList.get(index).getMyLocation().getY();
 				int levelOfOGCreature=creatureList.get(index).getLevel();
-				for (int nextCreature=0; nextCreature<size;nextCreature++) {
-					if(creatureList.get(nextCreature).getMyLocation().getX()==x 
-							&& creatureList.get(nextCreature).getMyLocation().getY()==y) {
+				
+				for (int nextCreatureInd=0; nextCreatureInd<size;nextCreatureInd++) {
+					LifeForm nextCreature = creatureList.get(nextCreatureInd);
+					if(nextCreature.getMyLocation().getX()==x 
+							&& nextCreature.getMyLocation().getY()==y) {
 					} else {
 						for (int xVal = -1 ; xVal <= 1 ;xVal++) {     
 							for(int yVal = -1 ; yVal <= 1; yVal++) {
-								if(creatureList.get(nextCreature).getMyLocation().getX()==x+xVal && 
-										creatureList.get(nextCreature).getMyLocation().getY()==y+yVal) 
+								if(nextCreature.getMyLocation().getX()==x+xVal && 
+										nextCreature.getMyLocation().getY()==y+yVal) 
 								{
 									spreadDisease(levelOfOGCreature, nextCreature, index);
-									break;
+									//break;
 								}
 							}
 						}
@@ -97,33 +96,29 @@ public class World {
 		}
 	}
 
-	public void spreadDisease(int levelOfOGCreature,  int nextCreature, int index) {
-		if(creatureList.get(nextCreature).getLevel()<levelOfOGCreature && creatureList.get(index).getLevel()==1) {
-			int x=creatureList.get(nextCreature).getMyLocation().getX();
-			int y=creatureList.get(nextCreature).getMyLocation().getY();
-			int lifeSpan= creatureList.get(nextCreature).getMyLifeSpan();
+	public void spreadDisease(int levelOfOGCreature,  LifeForm healthyPerson, int index) {
+		if(healthyPerson.getLevel()==0 && creatureList.get(index).getLevel()==1) {
+			int x=healthyPerson.getMyLocation().getX();
+			int y=healthyPerson.getMyLocation().getY();
+			int lifeSpan= healthyPerson.getMyLifeSpan();
 			int add= rgen.nextInt(0,99);
 			if(add<20) {
 				creatureList.set(index, new symptomatic(lifeSpan,new Location(x,y), Color.RED, this, levelOfOGCreature));
-				int lifeSpan2=creatureList.get(nextCreature).getMyLifeSpan();
-				creatureList.get(nextCreature).setAge(lifeSpan2);
+				healthyPerson.alive = false;
+				System.out.println("Healthy person replaced with symptomatic at location ("+x+","+y+")");
 			} else if (add<70) {
 				creatureList.set(index, new aysmptomatic(lifeSpan,new Location(x,y), Color.BLUE, this, levelOfOGCreature));
-				int lifeSpan2=creatureList.get(nextCreature).getMyLifeSpan();
-				creatureList.get(nextCreature).setAge(lifeSpan2);
+				healthyPerson.alive = false;
+				System.out.println("Healthy person replaced with asymptomatic at location ("+x+","+y+")");
 			} 
-
 		}
-		purgeTheDead();
 	}
 
 	public void purgeTheDead(){
 		int i=0;
-	//	System.out.println("in purge the dead");
 		while(i<creatureList.size()){
 			if(creatureList.get(i).isDead()) {
 				creatureList.remove(i);
-	//			System.out.println("purging");
 			}else {
 				i++;
 			}

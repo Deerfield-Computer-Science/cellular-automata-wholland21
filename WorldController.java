@@ -24,12 +24,40 @@ public class WorldController extends GraphicsProgram {
 
 	public void setUpWorld(){ 
 		theWorld = new World(100,75);
-		for(int number = 0 ; number < 750 ; number++) {
-			theWorld.getCreatureList().add(new healthy(52,new Location(rgen.nextInt(0, 99),rgen.nextInt(0, 74)), Color.GREEN, theWorld, 0));
+		int number =0;
+		while(number < 750) {
+			boolean place = true;
+			int x=rgen.nextInt(0, 99);
+			int y=rgen.nextInt(0, 74);
+			for (int plus=0; plus<theWorld.getCreatureList().size();plus++) {	
+				if( (theWorld.getCreatureList().get(plus).getMyLocation().getX())==x 
+						&& (theWorld.getCreatureList().get(plus).getMyLocation().getY())==y) {
+					place= false;
+					break;
+				}
+			}
+			if (place==true) {
+				theWorld.getCreatureList().add(new healthy(52,new Location(x,y), Color.GREEN, theWorld, 0));
+				number++;
+			}
 		}
-		for(int number = 0 ; number < 20 ; number++) {
-			theWorld.getCreatureList().add(new aysmptomatic(52,new Location(rgen.nextInt(0, 99),rgen.nextInt(0, 74)), Color.BLUE, theWorld, 1));
-		}
+		number =0;
+		while(number < 20) {
+				boolean place = true;
+				int x=rgen.nextInt(0, 99);
+				int y=rgen.nextInt(0, 74);
+				for (int plus=0; plus<theWorld.getCreatureList().size();plus++) {	
+					if( (theWorld.getCreatureList().get(plus).getMyLocation().getX())==x 
+							&& (theWorld.getCreatureList().get(plus).getMyLocation().getY())==y) {
+						place= false;
+						break;
+					}
+				}
+				if (place==true) {
+					theWorld.getCreatureList().add(new aysmptomatic(52,new Location(x,y), Color.BLUE, theWorld, 1));
+					number++;					
+				}
+			}
 		theWorldCanvas = this.getGCanvas();
 	}
 
@@ -37,7 +65,7 @@ public class WorldController extends GraphicsProgram {
 		drawWorld();
 		countCreatures();
 		System.out.println("original list ^");
-		for(int i=0; i<24;i++){
+		for(int i=0; i<10;i++){
 			theWorld.letTimePass(i);
 			countCreatures();
 			pause(1000);
