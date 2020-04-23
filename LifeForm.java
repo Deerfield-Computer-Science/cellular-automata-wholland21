@@ -9,10 +9,11 @@ public abstract class LifeForm {
 	protected Color myColor;
 	protected int myAge;
 	protected boolean alive;
-	protected int level; 
+	protected int level;
+	protected int gens;
 	
 	// lifeform constructors
-	public LifeForm(int myLifeSpan, Location myLocation, Color myColor, World myWorld, int level) {
+	public LifeForm(int myLifeSpan, Location myLocation, Color myColor, World myWorld, int level, int gens) {
 		super();
 		this.myLifeSpan = myLifeSpan;
 		this.myLocation = myLocation;
@@ -20,15 +21,17 @@ public abstract class LifeForm {
 		this.myWorld = myWorld;
 		alive = true;
 		this.level=level;
+		this.gens=gens;
+		
 	}
 	
-	public LifeForm(Location myLocation, World myWorld, int level) {
-		super();
-		this.myWorld = myWorld;
-		this.myLocation = myLocation;
-		alive = true;
-		this.level=level;
-	}
+//	public LifeForm(Location myLocation, World myWorld, int level) {
+//		super();
+//		this.myWorld = myWorld;
+//		this.myLocation = myLocation;
+//		alive = true;
+//		this.level=level;
+//	}
 	
 	/* all the basic lifeform functions
 	 * 		getOlder

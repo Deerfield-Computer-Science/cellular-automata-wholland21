@@ -3,8 +3,8 @@ import acm.util.RandomGenerator;
 //level 0
 public class healthy extends Humans {
 
-	public healthy(int life, Location l, Color Green, World w, int level) {	
-		super(52, l, Green, w, level);
+	public healthy(int life, Location l, Color Green, World w, int level) {
+		super(52, l, Green, w, level, 0);
 		myColor= Color.GREEN;	
 
 	}

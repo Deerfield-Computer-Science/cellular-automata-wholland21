@@ -4,7 +4,7 @@ import acm.util.RandomGenerator;
 public class symptomatic extends Humans {
 
 	public symptomatic(int life, Location l, Color Red, World w, int level) {	
-		super(52, l, Red, w, level);
+		super(52, l, Red, w, level, 0);
 		myColor= Color.RED;	
 
 	}

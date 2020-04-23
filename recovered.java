@@ -4,7 +4,7 @@ import acm.util.RandomGenerator;
 public class recovered extends Humans {
 
 	public recovered(int life, Location l, Color Black, World w, int level) {	
-		super(52, l, Black, w, level);
+		super(52, l, Black, w, level,0);
 		myColor= Color.BLACK;	
 
 	}
